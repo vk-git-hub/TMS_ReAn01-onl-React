@@ -1,13 +1,14 @@
 
 interface IButtonCommon {
-    text: string;
+  text: string;
+  disabled?: boolean;
 }
 
-export const ButtonCommon = (props: IButtonCommon) => {
-    const {text} = props;
-    return <button>{text}</button>
-}
-
+export const ButtonCommon = ({ text, disabled }: IButtonCommon) => (
+  <button disabled={disabled}>
+    {text}
+  </button>
+);
 
 
 
