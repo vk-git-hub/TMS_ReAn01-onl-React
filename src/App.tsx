@@ -1,37 +1,27 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import logo from './logo.svg';
 import './App.css';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
-import { Button } from './components/atoms/Button/Button';
-import { ReactComponent as FavoriteIcon } from './assets/icons/favoritesIcon.svg';
-import { ReactComponent as SearchIcon } from './assets/icons/searchIcon.svg';
-import { ReactComponent as ThumbsDownIcon } from './assets/icons/thumbsDownIcon.svg';
-import { ReactComponent as ThumbsUpIcon } from './assets/icons/thumbsUpIcon.svg';
-import { ColorService } from './services/ColorService';
-import { Input } from './components/atoms/Input';
+// import { Button } from './components/atoms/Button';
+// import { ReactComponent as FavoriteIcon } from './assets/icons/favoritesIcon.svg';
+// import { ColorService } from './services/ColorService';
 import { Tabs } from './components/atoms/Tabs';
-
-import { User } from './components/atoms/User/User';
-import { ReactComponent as UserIcon } from './assets/icons/userIcon.svg';
-
-import { TitleCommon } from './components/atoms/TitleCommon/TitleCommon';
-import { ButtonCommon } from './components/atoms/ButtonCommon/ButtonCommon';
-import { LinkCommon } from './components/atoms/LinkCommon/LinkCommon';
-
-import { Footer } from './components/atoms/Footer/Footer';
-// import { Container } from './components/layouts/Container/Container';
+import { Input } from './components/atoms/Input';
+import { RegistrationPage } from './components/pages/Registration';
 import { FormTemplate } from './components/templates/FormTemplate/FormTemplate';
+import { PostsPage } from './components/pages/Posts/Posts';
+import { Header } from './components/molecules/Header/Header';
+import { PostPage } from './components/pages/Post/Post';
 
 function App() {
-  const onClick = () => {
-    console.log('click');
+  const onChange = async (event: ChangeEvent<HTMLInputElement>, field: string) => {
+    console.log({ event, field });
+    setName(event.target.value);
   };
 
-  // const users = [
-  //   { id: 0, name: 'Lucas' },
-  //   { id: 1, name: 'William' },
-  // ];
+  const [name, setName] = useState('');
 
   const tabs = [
     { title: 'All', url: '/all' },
@@ -39,165 +29,74 @@ function App() {
     { title: 'Popular', url: '/popular' },
   ];
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log({ event });
-  };
-
-  const inputValues = {
-    value: 'Text',
-    type: 'text' as 'text',
-    error: '',
-    labelText: 'User name',
-    placeholder: 'Placeholder',
-    disabled: false,
-    // onChange,
-  };
-
-
   return (
-    <div>
-       <header className="App-header">
-
-        {/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React
-        </a> */}
-
-        <FormTemplate title="Sign in">
-          <p>Hello</p>
-          {/* <Container>
-            <Footer />
-          </Container> */}
-        </FormTemplate>
-        {/* <Container>
-            <Footer />
-          </Container> */}
-
-        {/*
-        <Tabs list={tabs} activeTabUrl={'/my'} />
-        <Input onChange={onChange} {...inputValues} error={'Text error'} />
-        <Input onChange={onChange} {...inputValues} disabled />
-        <Input onChange={onChange} {...inputValues} value={''} />
-        <Input onChange={onChange} {...inputValues} value={'password'} type={'password'} />
-        <Button theme={'primary'} text="Button example" onClick={onClick} />
-        <Button theme={'secondary'} text="Button example" onClick={onClick} />
-        <Button theme={'primary'} text="Button example" onClick={onClick} disabled={true} />
-        <Button theme={'delete'} text="Button example" onClick={onClick} />
-        <Button
-          theme={'icon'}
-          text="Button example"
-          onClick={onClick}
-          icon={<FavoriteIconStyled />}
-        />*/}
-
-        {/*
-        <p>
-        <div className="App-title">
-           <TitleCommon text="Sign In"/> 
-        </div>        
-        </p>
-        <p>         
-        <ButtonCommon text="menu hamburger" onClick={onClick} /> 
-        </p>
-        <p>         
-        <Button theme={'primary'} text="menu hamburger" onClick={onClick} /> 
-        </p>      
-        <p>
-        <div className="App-Link">
-           <LinkCommon href="https://reactjs.org" text="This is Link"/> 
-        </div>        
-        </p>*/}
-
-        <Button
-          theme={'searchIcon'}
-          text="Button Search"
-          onClick={onClick}
-          icon={<SearchIconStyled />}
-        />
-        <User
-          theme={'authorized'}
-          username=""
-          onClick={onClick}
-          isAuthorized={false}
-          icon={<UserIconStyled />}
-        />     
-        <User
-          theme={'authorized'}
-          username="AM Artem Malkin"
-          onClick={onClick}
-          isAuthorized={true}
-          icon={<UserIconStyled />}
-        />                  
-        <Button
-          theme={'thumbsDownIcon'}
-          text=""
-          onClick={onClick}
-          icon={<ThumbsDownIconStyled />}
-        /> 
-        <Button
-          theme={'thumbsDownIcon'}
-          text=""
-          onClick={onClick}
-          disabled={true}
-          icon={<ThumbsDownIconStyled />}
-        />     
-        <Button
-          theme={'thumbsUpIcon'}
-          text=""
-          onClick={onClick}
-          icon={<ThumbsUpIconStyled />}
-        /> 
-        <Button
-          theme={'thumbsUpIcon'}
-          text=""
-          onClick={onClick}
-          disabled={true}
-          icon={<ThumbsUpIconStyled />}
-        />    
-
-
-
+    <div className="App">
+      <header className="App-header">
+        <Tabs list={tabs} activeTabUrl={'/all'} />
       </header>
+
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="posts"
+            element={
+              // <div></div>
+              <FormTemplate title="text">
+                <PostsPage />
+              </FormTemplate>
+            }>
+            {/* <Route
+              path=":postID"
+              element={
+                // <div></div>
+                <FormTemplate title="text">
+                  <PostPage />
+                </FormTemplate>
+              }></Route> */}
+          </Route>
+          <Route
+            path="/posts/:postID"
+            element={
+              // <div></div>
+              <FormTemplate title="text">
+                <PostPage />
+              </FormTemplate>
+            }></Route>
+          <Route
+            path="/"
+            element={
+              <FormTemplate title="text">
+                <RegistrationPage />
+              </FormTemplate>
+            }>
+            {/* <Route
+              path="/posts"
+              element={
+                // <div></div>
+                <FormTemplate title="text">
+                  <PostsPage />
+                </FormTemplate>
+              }
+            /> */}
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
-  )
+  );
 }
 
-const FavoriteIconStyled = styled(FavoriteIcon)`
-  path {
-    fill: ${ColorService.SECONDARY};
-  }
-`;
+// const FavoriteIconStyled = styled(FavoriteIcon)`
+//   path {
+//     fill: ${ColorService.SECONDARY};
+//   }
+// `;
 
-const SearchIconStyled = styled(SearchIcon)`
-  path {
-    fill: ${ColorService.PRIMARY};
-  }
-`;
-
-const UserIconStyled = styled(UserIcon)`
-  path {
-    fill: ${ColorService.SECONDARY};
-  }
-`;
-
-const ThumbsDownIconStyled = styled(ThumbsDownIcon)`
-  path {
-    fill: ${ColorService.SECONDARY};
-  }
-`;
-
-const ThumbsUpIconStyled = styled(ThumbsUpIcon)`
-  path {
-    fill: ${ColorService.SECONDARY};
-  }
-`;
-
+// fetch('https://studapi.teachmeskills.by/blog/posts/?limit=20')
+//   .then((response) => {
+//     return response.json();
+//   })
+//   .then((data) => {
+//     console.log(data);
+//   });
 
 export default App;
